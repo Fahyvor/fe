@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
       <div className='flex flex-col'>
         <h2 className='text-center text-3xl font-bold'>Dashboard</h2>
         <div className='add-contact flex justify-end px-5'>
-          <a href='/add-contact' className='bg-black text-white
+          <a href='/contact' className='bg-black text-white
           rounded-full p-3'>Add Contact</a>
         </div>
         <table >
