@@ -15,15 +15,26 @@ const Dashboard: React.FC = () => {
     h-screen'>
       <div className='flex flex-col'>
         <h2 className='text-center text-3xl font-bold'>Dashboard</h2>
+        <div className='add-contact flex justify-end px-5'>
+          <a href='/add-contact' className='bg-black text-white
+          rounded-full p-3'>Add Contact</a>
+        </div>
         <table >
           <thead>
-            <tr className='flex w-screen mt-5 gap-1 justify-between px-8'>
-              <th className='bg-slate-100 p-2 w-1/6'>Name</th>
-              <th className='bg-slate-100 p-2 w-1/6'>Phone Number</th>
-              <th className='bg-slate-100 p-2 w-1/6'>Email</th>
-              <th className='bg-slate-100 p-2 w-1/6'>Address</th>
-              <th className='bg-slate-100 p-2 w-1/6'>Longitude</th>
-              <th className='bg-slate-100 p-2 w-1/6'>Latitude</th>
+            <tr className='flex w-screen mt-5 gap-1 justify-between
+            max-sm:gap-6 max-sm:flex-col px-8'>
+              <th className='bg-slate-100 p-2 w-1/6
+              max-sm:w-1/3'>Name</th>
+              <th className='bg-slate-100 p-2 w-1/6
+              max-sm:w-1/3'>Phone Number</th>
+              <th className='bg-slate-100 p-2 w-1/6
+              max-sm:w-1/3'>Email</th>
+              <th className='bg-slate-100 p-2 w-1/6
+              max-sm:w-1/3'>Address</th>
+              <th className='bg-slate-100 p-2 w-1/6
+              max-sm:w-1/3'>Longitude</th>
+              <th className='bg-slate-100 p-2 w-1/6
+              max-sm:w-1/3'>Latitude</th>
             </tr>
           </thead>
           <tbody>
