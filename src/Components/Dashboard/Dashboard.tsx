@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
         <AiOutlineBars size={40}/>
       </div>
       <div className='menu bg-blue-900 pt-6 w-1/5 text-white px-3 
-      max-sm:abolute max-sm:inset-y-0 max-sm:w-2/5 max-sm:invisible'>
+      w-screen max-sm:inset-y-0 max-sm:w-2/5 max-sm:invisible'>
         <h3 className='text-3xl pb-4'>Logo</h3>
 
         <div className='dashboard mt-7' onClick={showDashboard}>
@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
       null }
       
       { dashboard ? (<div className='menu-display pt-6  w-5/6 px-5 flex
-      max-sm:w-screen flex-col gap-5 absolute'>
+      max-sm:w-screen flex-col gap-5 max-sm:absolute'>
         <div className='dashboard-display flex flex-col gap-3'>
           <h2 className='text-3xl'>Dashboard</h2>
           <p>Welcome back, User</p>
