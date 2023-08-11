@@ -23,6 +23,7 @@ const ContactComponent: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
+  const [remove, setRemove] = useState(false)
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [inputFields, setInputFields] = useState<string[]>(['']);
 
@@ -30,6 +31,7 @@ const ContactComponent: React.FC = () => {
     if (inputFields.length < MaxInputFields) {
       setInputFields([...inputFields, '']);
     }
+    removeState();
   };
 
   const handleInputChange = (index: number, value: string) => {
@@ -44,6 +46,15 @@ const ContactComponent: React.FC = () => {
       setInputFields(newInputFields);
     }
   };
+
+  const removeState = () => {
+    if(inputFields.length >= 2) {
+      setRemove(false)
+    }
+    else {
+      setRemove(true);
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,15 +95,14 @@ const ContactComponent: React.FC = () => {
         </div>
         <div className='flex flex-col'>
         <label>Address:</label>
-        {/* <input type="text" 
-        className="p-3 mt-2 bg-slate-200" value={address} onChange={(e) => setAddress(e.target.value)} required /> */}
 
         {inputFields.map((value, index) => (
           <div key={index} className='w-full'>
+            {remove ? (<div onClick={() => handleRemoveField(index)}>remove</div>) : null }
             <input
               type="text"
               value={value}
-              className="p-3 mt-2 bg-slate-200"
+              className="p-3 mt-2 bg-slate-200 w-full"
               onChange={(e) => handleInputChange(index, e.target.value)}
             />
           </div>
