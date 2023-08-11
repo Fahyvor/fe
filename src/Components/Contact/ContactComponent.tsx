@@ -48,7 +48,7 @@ const ContactComponent: React.FC = () => {
         <input type="text"
         className="p-3 mt-2 bg-slate-200" value={name} onChange={(e) => setName(e.target.value)} required />
         <label>Phone Number:</label>
-        <input type="tel" 
+        <input type="text" 
         className="p-3 mt-2 bg-slate-200" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required  />
         <label>Email:</label>
         <input type="email" 
