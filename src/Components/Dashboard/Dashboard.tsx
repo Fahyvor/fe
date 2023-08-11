@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -16,8 +17,8 @@ const Dashboard: React.FC = () => {
       <div className='flex flex-col'>
         <h2 className='text-center text-3xl font-bold'>Dashboard</h2>
         <div className='add-contact flex justify-end px-5'>
-          <a href='/contact' className='bg-black text-white
-          rounded-full p-3'>Add Contact</a>
+          <Link to='/contact' className='bg-black text-white
+          rounded-full p-3'>Add Contact</Link>
         </div>
         <table >
           <thead>
