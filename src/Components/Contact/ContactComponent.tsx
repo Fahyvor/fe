@@ -74,7 +74,7 @@ const ContactComponent: React.FC = () => {
   };
 
   return (
-    <div className='w-full bg-white max-sm:w-full color-black h-screen
+    <div className='w-full bg-white absolute max-sm:w-full color-black h-screen
     text-black flex flex-col justify-center px-5'>
       <h2 className='text-4xl font-bold'>Add Contact</h2>
       <form onSubmit={handleSubmit} className='grid grid-cols-2 w-2/3 max-sm:w-full gap-4'>
