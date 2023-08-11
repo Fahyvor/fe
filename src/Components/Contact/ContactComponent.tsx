@@ -49,7 +49,7 @@ const ContactComponent: React.FC = () => {
         className="p-3 mt-2 bg-slate-200" value={name} onChange={(e) => setName(e.target.value)} required />
         <label>Phone Number:</label>
         <input type="tel" 
-        className="p-3 mt-2 bg-slate-200" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required pattern="[0-9]{10}" />
+        className="p-3 mt-2 bg-slate-200" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required  />
         <label>Email:</label>
         <input type="email" 
         className="p-3 mt-2 bg-slate-200" value={email} onChange={(e) => setEmail(e.target.value)} required />
