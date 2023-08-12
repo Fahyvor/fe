@@ -18,14 +18,27 @@ interface Contact {
   latitude: number;
 }
 
-const ContactComponent: React.FC = () => {
+interface ContactComponentProps {
+  initialName: string;
+  initialPhoneNumber: string;
+  initialEmail: string;
+  initialAddress: string;
+}
+
+
+const ContactComponent: React.FC<ContactComponentProps> = ({
+  initialName,
+  initialPhoneNumber,
+  initialEmail,
+  initialAddress,
+}) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [remove, setRemove] = useState(false)
   const [contacts, setContacts] = useState<Contact[]>([]);
-  const [inputFields, setInputFields] = useState<string[]>(['']);
+  const [inputFields, setInputFields] = useState<string[]>([initialAddress]);
 
   const AddField = () => {
     if (inputFields.length < MaxInputFields) {
@@ -41,7 +54,7 @@ const ContactComponent: React.FC = () => {
   };
 
   const handleRemoveField = (index: number) => {
-    if (inputFields.length > 1) {
+    if (inputFields.length < 2) {
       const newInputFields = inputFields.filter((_, i) => i !== index);
       setInputFields(newInputFields);
     }
@@ -71,10 +84,11 @@ const ContactComponent: React.FC = () => {
     setPhoneNumber('');
     setEmail('');
     setAddress('');
+    setInputFields([]);
   };
 
   return (
-    <div className='w-full bg-white absolute max-sm:w-full color-black h-screen
+    <div className='w-full bg-white max-sm:absolute max-sm:w-full color-black h-screen
     text-black flex flex-col justify-center px-5'>
       <h2 className='text-4xl font-bold'>Add Contact</h2>
       <form onSubmit={handleSubmit} className='grid grid-cols-2 w-2/3 max-sm:w-full gap-4'>
@@ -115,7 +129,7 @@ const ContactComponent: React.FC = () => {
 
         <div onClick={AddField}
         className='mt-5 bg-blue-900 rounded-none 
-        text-center flex items-center justify-center text-white'>Add Contact</div>
+        text-center flex items-center justify-center text-white'>Add Address</div>
       </form>
     </div>
   );
