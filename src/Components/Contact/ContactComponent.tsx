@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 
-const MaxInputFields = 5;
-
 interface Address {
   street: string;
   city: string;
   state: string;
 }
-
 
 interface Contact {
   name: string;
@@ -18,56 +15,49 @@ interface Contact {
   latitude: number;
 }
 
-interface ContactComponentProps {
-  initialName: string;
-  initialPhoneNumber: string;
-  initialEmail: string;
-  initialAddress: string;
+interface FormComponentProps {
+  onSave: (data: Contact) => void;
 }
 
+// const onSave = () => {
 
-const ContactComponent: React.FC<ContactComponentProps> = ({
-  initialName,
-  initialPhoneNumber,
-  initialEmail,
-  initialAddress,
-}) => {
+// }
+
+const MaxInputFields = 5;
+
+const ContactComponent: React.FC<FormComponentProps> = ({ onSave }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [remove, setRemove] = useState(false)
+  const [addresses, setAddresses] = useState<string[]>(['']);
+  const [remove, setRemove] = useState(false);
   const [contacts, setContacts] = useState<Contact[]>([]);
-  const [inputFields, setInputFields] = useState<string[]>([initialAddress]);
+
+  const handleInputChange = (index: number, value: string) => {
+    const newAddresses = [...addresses];
+    newAddresses[index] = value;
+    setAddresses(newAddresses);
+  };
+
+  const handleRemoveField = (index: number) => {
+    if (addresses.length > 1) {
+      const newAddresses = addresses.filter((_, i) => i !== index);
+      setAddresses(newAddresses);
+    }
+  };
 
   const AddField = () => {
-    if (inputFields.length < MaxInputFields) {
-      setInputFields([...inputFields, '']);
+    if (addresses.length < MaxInputFields) {
+      setAddresses([...addresses, '']);
     }
     removeState();
   };
 
-  const handleInputChange = (index: number, value: string) => {
-    const newInputFields = [...inputFields];
-    newInputFields[index] = value;
-    setInputFields(newInputFields);
-  };
-
-  const handleRemoveField = (index: number) => {
-    if (inputFields.length < 2) {
-      const newInputFields = inputFields.filter((_, i) => i !== index);
-      setInputFields(newInputFields);
-    }
-  };
-
   const removeState = () => {
-    if(inputFields.length >= 2) {
-      setRemove(false)
-    }
-    else {
-      setRemove(true);
-    }
-  }
+    if (addresses.length >= 2) {
+      setRemove(false);
+    } 
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,61 +65,60 @@ const ContactComponent: React.FC<ContactComponentProps> = ({
       name,
       phoneNumber,
       email,
-      addresses: [{ street: address, city: 'City', state: 'State' }],
+      addresses: addresses.map(address => ({
+        street: address,
+        city: 'City',
+        state: 'State',
+      })),
       longitude: 0,
-      latitude: 0, 
+      latitude: 0,
     };
     setContacts([...contacts, newContact]);
     setName('');
     setPhoneNumber('');
     setEmail('');
-    setAddress('');
-    setInputFields([]);
+    setAddresses([]);
+    onSave(newContact);
   };
 
   return (
-    <div className='w-full bg-white max-sm:absolute max-sm:w-full color-black h-screen
-    text-black flex flex-col justify-center px-5'>
+    <div className='w-full bg-white max-sm:absolute max-sm:w-full color-black h-screen text-black flex flex-col justify-center px-5'>
       <h2 className='text-4xl font-bold'>Add Contact</h2>
       <form onSubmit={handleSubmit} className='grid grid-cols-2 w-2/3 max-sm:w-full gap-4'>
         <div className='flex flex-col'>
-        <label>Name:</label>
-        <input type="text"
-        className="p-3 mt-2 bg-slate-200" value={name} onChange={(e) => setName(e.target.value)} required />
+          <label>Name:</label>
+          <input type="text" className="p-3 mt-2 bg-slate-200" value={name} 
+          name='name' onChange={(e) => setName(e.target.value)} required />
         </div>
         <div className='flex flex-col'>
-        <label>Phone Number:</label>
-        <input type="text" 
-        className="p-3 mt-2 bg-slate-200" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required  />
+          <label>Phone Number:</label>
+          <input type="text" className="p-3 mt-2 bg-slate-200" value={phoneNumber}
+          name='phoneNumber' onChange={(e) => setPhoneNumber(e.target.value)} required />
         </div>
         <div className='flex flex-col'>
-        <label>Email:</label>
-        <input type="email" 
-        className="p-3 mt-2 bg-slate-200" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label>Email:</label>
+          <input type="email" className="p-3 mt-2 bg-slate-200" value={email}
+          name='email' onChange={(e) => setEmail(e.target.value)} required />
         </div>
         <div className='flex flex-col'>
-        <label>Address:</label>
-
-        {inputFields.map((value, index) => (
-          <div key={index} className='w-full'>
-            {remove ? (<div onClick={() => handleRemoveField(index)}>remove</div>) : null }
-            <input
-              type="text"
-              value={value}
-              className="p-3 mt-2 bg-slate-200 w-full"
-              onChange={(e) => handleInputChange(index, e.target.value)}
-            />
-          </div>
-        ))}
+          <label>Addresses:</label>
+          {addresses.map((value, index) => (
+            <div key={index} className='w-full'>
+              {remove ? (<div onClick={() => handleRemoveField(index)}>remove</div>) : null}
+              <input
+                type="text"
+                name='address'
+                value={value}
+                className="p-3 mt-2 bg-slate-200 w-full"
+                onChange={(e) => handleInputChange(index, e.target.value)}
+              />
+            </div>
+          ))}
         </div>
         <div className='flex flex-col'>
-        <button type="submit"
-        className='mt-5 bg-blue-900 rounded-none text-white'>Submit</button>
+          <button type="submit" className='mt-5 bg-blue-900 rounded-none text-white'>Submit</button>
         </div>
-
-        <div onClick={AddField}
-        className='mt-5 bg-blue-900 rounded-none 
-        text-center flex items-center justify-center text-white'>Add Address</div>
+        <div onClick={AddField} className='mt-5 bg-blue-900 rounded-none text-center flex items-center justify-center text-white'>Add Address</div>
       </form>
     </div>
   );
