@@ -3,16 +3,24 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Dashboard from './Components/Dashboard/Dashboard'
 import ContactComponent from './Components/Contact/ContactComponent'
 
+interface RowData {
+  name: string;
+  age: number;
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [tableData, setTableData] = useState<RowData[]>([]);
+  const [show, setShow] = useState(false)
+
+  const handleFormSubmit = (formData: RowData) => {
+    setTableData((prevData) => [...prevData, formData]);
+  };
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/contact' element={<ContactComponent />} />
-      </Routes>
-    </Router>
+    <div>
+      <Dashboard data={tableData} />
+      {show ? (<ContactComponent onSubmit={handleFormSubmit} />): null }
+    </div>
   )
 }
 

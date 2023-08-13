@@ -15,23 +15,16 @@ interface Contact {
   latitude: number;
 }
 
-interface FormComponentProps {
-  onSave: (data: Contact) => void;
-}
-
-// const onSave = () => {
-
-// }
 
 const MaxInputFields = 5;
 
-const ContactComponent: React.FC<FormComponentProps> = ({ onSave }) => {
+const ContactComponent: React.FC<Contact> = ({ data }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [addresses, setAddresses] = useState<string[]>(['']);
   const [remove, setRemove] = useState(false);
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [showRemove, setShowRemove] = useState(false);
 
   const handleInputChange = (index: number, value: string) => {
     const newAddresses = [...addresses];
@@ -43,21 +36,34 @@ const ContactComponent: React.FC<FormComponentProps> = ({ onSave }) => {
     if (addresses.length > 1) {
       const newAddresses = addresses.filter((_, i) => i !== index);
       setAddresses(newAddresses);
+      setRemove(true)
     }
   };
 
   const AddField = () => {
     if (addresses.length < MaxInputFields) {
       setAddresses([...addresses, '']);
-    }
+    } else {
     removeState();
+    removeText();
+    }
   };
 
   const removeState = () => {
     if (addresses.length >= 2) {
       setRemove(false);
-    } 
+    } else {
+      setRemove(true);
+    }
   };
+
+  const removeText = () => {
+    if(addresses.length < 2) {
+      setShowRemove(false);
+    } else {
+      setShowRemove(true);
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,12 +79,10 @@ const ContactComponent: React.FC<FormComponentProps> = ({ onSave }) => {
       longitude: 0,
       latitude: 0,
     };
-    setContacts([...contacts, newContact]);
     setName('');
     setPhoneNumber('');
     setEmail('');
     setAddresses([]);
-    onSave(newContact);
   };
 
   return (
@@ -104,7 +108,8 @@ const ContactComponent: React.FC<FormComponentProps> = ({ onSave }) => {
           <label>Addresses:</label>
           {addresses.map((value, index) => (
             <div key={index} className='w-full'>
-              {remove ? (<div onClick={() => handleRemoveField(index)}>remove</div>) : null}
+              {remove ? (<div onClick={() => handleRemoveField(index)}>
+                {setRemove ? (<p>remove</p>): null }</div>) : null}
               <input
                 type="text"
                 name='address'
