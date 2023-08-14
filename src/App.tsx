@@ -10,6 +10,7 @@ interface RowData {
 
 function App() {
   const [tableData, setTableData] = useState<RowData[]>([]);
+  
   const [show, setShow] = useState(false)
 
   const handleFormSubmit = (formData: RowData) => {

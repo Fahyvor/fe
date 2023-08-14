@@ -4,10 +4,10 @@ import { MdOutlineCancel } from 'react-icons/md';
 import ContactComponent from '../Contact/ContactComponent';
 
 interface DisplayComponentProps {
-  data: FormData;
+  data: newContact;
 }
 
-const Dashboard: React.FC<DisplayComponentProps> = ({ data }) => {
+const Dashboard: React.FC<DisplayComponentProps> = ({ Contact}) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -16,6 +16,13 @@ const Dashboard: React.FC<DisplayComponentProps> = ({ data }) => {
   const [dashboard, setDashboard] = useState(true);
   const [contact, setContact] = useState(false);
   const [mobile, setMobile] = useState(false);
+  const [tableData, setTableData] = useState<RowData[]>([]);
+
+  const handleFormSubmit = (formData: Contact) => {
+    // setTableData((prevData) => [...prevData, formData]);
+    setContacts((prevData) => [...prevData, Contact]);
+  };
+
 
   const showDashboard = () => {
     setDashboard(true);
@@ -77,13 +84,16 @@ const Dashboard: React.FC<DisplayComponentProps> = ({ data }) => {
               <small>You do not have any users on your contact list</small>
             ) : (
               <ul>
-                {contacts.map((contact, index) => (
+                {contacts.map((log, index) => (
                   <li key={index}>
                     <p>Name: {contact.name}</p>
                     <p>Phone: {contact.phoneNumber}</p>
                     <p>Email: {contact.email}</p>
+                    <p>Address: {contact.addresses}</p>
                   </li>
+                  // <li key={index}>{log}</li>
                 ))}
+                {/* {log} */}
               </ul>
             )}
           </div>
@@ -94,7 +104,7 @@ const Dashboard: React.FC<DisplayComponentProps> = ({ data }) => {
       ) : null}
 
       {/* Contact form */}
-      {contact ? <ContactComponent initialName={name} initialPhoneNumber={phoneNumber} initialEmail={email} initialAddress={address} /> : null}
+      {contact ? <ContactComponent onSubmit={handleFormSubmit} Contact={Contact} /> : null}
     </div>
   );
 };

@@ -18,13 +18,15 @@ interface Contact {
 
 const MaxInputFields = 5;
 
-const ContactComponent: React.FC<Contact> = ({ data }) => {
+const ContactComponent: React.FC<Contact> = ({ newContact }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [addresses, setAddresses] = useState<string[]>(['']);
   const [remove, setRemove] = useState(false);
   const [showRemove, setShowRemove] = useState(false);
+  const [freshContact, setFreshContact] = useState<Contact[]>([]);
+  const [logs, setLogs] = useState<string[]>([]); 
 
   const handleInputChange = (index: number, value: string) => {
     const newAddresses = [...addresses];
@@ -36,21 +38,18 @@ const ContactComponent: React.FC<Contact> = ({ data }) => {
     if (addresses.length > 1) {
       const newAddresses = addresses.filter((_, i) => i !== index);
       setAddresses(newAddresses);
-      setRemove(true)
+      setRemove(true);
     }
   };
 
   const AddField = () => {
     if (addresses.length < MaxInputFields) {
       setAddresses([...addresses, '']);
-    } else {
-    removeState();
-    removeText();
     }
   };
 
   const removeState = () => {
-    if (addresses.length >= 2) {
+    if (addresses.length >= 1) {
       setRemove(false);
     } else {
       setRemove(true);
@@ -79,10 +78,16 @@ const ContactComponent: React.FC<Contact> = ({ data }) => {
       longitude: 0,
       latitude: 0,
     };
+
+    const logMessage = `Submitted: ${JSON.stringify(newContact)}`;
+    setLogs(prevLogs => [...prevLogs, logMessage]);
+
     setName('');
     setPhoneNumber('');
     setEmail('');
     setAddresses([]);
+    setFreshContact([])
+    console.log(newContact)
   };
 
   return (
@@ -108,8 +113,7 @@ const ContactComponent: React.FC<Contact> = ({ data }) => {
           <label>Addresses:</label>
           {addresses.map((value, index) => (
             <div key={index} className='w-full'>
-              {remove ? (<div onClick={() => handleRemoveField(index)}>
-                {setRemove ? (<p>remove</p>): null }</div>) : null}
+              {remove ? (<div onClick={() => handleRemoveField(index)}>remove</div>) : null}
               <input
                 type="text"
                 name='address'
