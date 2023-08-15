@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
 import { MdOutlineCancel } from 'react-icons/md';
 import ContactComponent from '../Contact/ContactComponent';
@@ -7,7 +7,14 @@ interface DisplayComponentProps {
   data: newContact;
 }
 
-const Dashboard: React.FC<DisplayComponentProps> = ({ Contact}) => {
+interface newContact {
+  name: string;
+  phoneNumber: string;
+  email: string;
+  address: string;
+}
+
+const Dashboard: React.FC<DisplayComponentProps> = ({  data }) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -17,12 +24,23 @@ const Dashboard: React.FC<DisplayComponentProps> = ({ Contact}) => {
   const [contact, setContact] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [tableData, setTableData] = useState<RowData[]>([]);
+  const [parseDataObject, setParseDataObject] = useState<Item[]>([]);
 
-  const handleFormSubmit = (formData: Contact) => {
-    // setTableData((prevData) => [...prevData, formData]);
-    setContacts((prevData) => [...prevData, Contact]);
-  };
+    useEffect (() => {
+        try {
+           const getData = async  () => {
+          const data = await localStorage.getItem(('newContact'))
+          const parseData = JSON.parse(data)
+          console.log(parseData)
+        } 
+      getData()
+      }
+        catch (error) {
+          console.log('Error:', error)
+        }
+    })
 
+    
 
   const showDashboard = () => {
     setDashboard(true);
@@ -84,12 +102,12 @@ const Dashboard: React.FC<DisplayComponentProps> = ({ Contact}) => {
               <small>You do not have any users on your contact list</small>
             ) : (
               <ul>
-                {contacts.map((log, index) => (
+                {parseDataObject.map((contact, index) => (
                   <li key={index}>
                     <p>Name: {contact.name}</p>
                     <p>Phone: {contact.phoneNumber}</p>
                     <p>Email: {contact.email}</p>
-                    <p>Address: {contact.addresses}</p>
+                    <p>Address: {contact.address}</p>
                   </li>
                   // <li key={index}>{log}</li>
                 ))}
@@ -104,7 +122,7 @@ const Dashboard: React.FC<DisplayComponentProps> = ({ Contact}) => {
       ) : null}
 
       {/* Contact form */}
-      {contact ? <ContactComponent onSubmit={handleFormSubmit} Contact={Contact} /> : null}
+      {contact ? <ContactComponent  /> : null}
     </div>
   );
 };

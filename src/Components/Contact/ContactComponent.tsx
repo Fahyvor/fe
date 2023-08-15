@@ -87,7 +87,10 @@ const ContactComponent: React.FC<Contact> = ({ newContact }) => {
     setEmail('');
     setAddresses([]);
     setFreshContact([])
-    console.log(newContact)
+    // console.log(newContact)
+    if (newContact) {localStorage.setItem('newContact', JSON.stringify(newContact))
+    }
+    
   };
 
   return (
