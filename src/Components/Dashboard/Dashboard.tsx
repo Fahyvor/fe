@@ -24,7 +24,7 @@ const Dashboard: React.FC<DisplayComponentProps> = ({  data }) => {
   const [contact, setContact] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [tableData, setTableData] = useState<RowData[]>([]);
-  const [parseDataObject, setParseDataObject] = useState<Item[]>([]);
+  const [parseDataObject, setParseDataObject] = useState<parseData[]>([]);
 
     useEffect (() => {
         try {
@@ -109,11 +109,19 @@ const Dashboard: React.FC<DisplayComponentProps> = ({  data }) => {
                     <p>Email: {contact.email}</p>
                     <p>Address: {contact.address}</p>
                   </li>
-                  // <li key={index}>{log}</li>
                 ))}
-                {/* {log} */}
               </ul>
             )}
+            <ul>
+              {parseDataObject.map((contact, index) => (
+                  <li key={index}>
+                    <p>Name: {contact.name}</p>
+                    <p>Phone: {contact.phoneNumber}</p>
+                    <p>Email: {contact.email}</p>
+                    <p>Address: {contact.address}</p>
+                  </li>
+                ))}
+              </ul>
           </div>
           <button className='bg-blue-900 text-white w-1/4 max-sm:w-3/4 rounded-none' onClick={showContact}>
             Add Contact
